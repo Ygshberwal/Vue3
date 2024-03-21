@@ -5,22 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
     <h2>Hello Vue</h2>
     <div id="app">
-        
-        <p v-if="showBooks">{{title}} - {{ author }} - {{ age }} years</p>
-        <!-- <button v-on:click="age++">Increase Age</button>
-        <button v-on:click="age--">Decrease Age</button>
-        <div @click="changeTitle('Oathbringer')">Change book title</div>
-         -->
-        <button @click="toggleShowBooks">
-            <span v-if="showBooks">Hide Books</span>
-            <span v-else>Show Books</span>
-        </button>
-        <div v-show="showBooks">Currently showing books</div>
-    </div>
+        <a :href="url">Best site</a>    
+        <!-- 3 authors and there top 5 books each -->
+        <div>      
+            <ul style="list-style-type: none;" >
+                <li v-for="book in books">
+                    <h4 @click="toggleShowBooks(book)" v-if="book.showBooks"> &#x25BE; {{ book.author }} <br>
+                    <img :src="book.img" :alt="book.author"/> 
+                    </h4>
+                    <h4 @click="toggleShowBooks(book)" v-else> &#x25B8; {{ book.author }} </h4>       
+                    <ol>
+                        <li v-if="book.showBooks" v-for="t in book.title">
+                            <p>{{ t }}<p>
+                        </li>
+                    </ol>         
+            </li>
+            </ul>
+        </div>        
+        <br>
+
+        <div v-if="showMyBooks"> 
+            <ul>
+                <li v-for="my in myBooks" :class="{ fav: my.isFav}" @click="toggleFav(my)">
+                    <img :src="my.img" :alt="my.author" style="width: 150px; height: 100px;"/> 
+                    <h3>{{ my.author }} </h3>
+                    <p>{{ my.title }} </p>
+                </li>
+            </ul>
+        </div>
+        <h3>Computed: Only show favourites</h3>
+        <div v-if="showMyBooks"> 
+            <ul>
+                <li v-for="my in filteredBooks" :class="{ fav: my.isFav}" @click="toggleFav(my)">
+                    <img :src="my.img" :alt="my.author" style="width: 150px; height: 100px;"/> 
+                    <h3>{{ my.author }} </h3>
+                    <p>{{ my.title }} </p>
+                </li>
+            </ul>
+        </div>
+        <button v-if="showMyBooks" @click="toggleMyBooks">Hide Books</button>
+        <button v-else @click="toggleMyBooks">Show Books</button>
+        <br>
+        <div class="box" @mouseover="handleEvent($event,5)">mouseover</div>
+        <div class="box" @mouseleave="handleEvent">mouseleave</div>
+        <div class="box" @dblclick="handleEvent">double click</div>
+        <div class="box" @mousemove="handleMouseMove"> Postition - {{x}} {{y}}</div>
+    </div> 
     
     <script src="app.js"></script>
 </body>
